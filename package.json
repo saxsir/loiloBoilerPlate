@@ -1,0 +1,29 @@
+{
+  "name": "boiler-plate",
+  "version": "0.0.0",
+  "description": "",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "saxsir",
+  "license": "BSD",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-reduce": "~0.1.9",
+    "grunt-csso": "~0.5.0",
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-replace": "~0.5.1",
+    "grunt-contrib-jade": "~0.8.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-stylus": "~0.8.0",
+    "grunt-contrib-coffee": "~0.7.0",
+    "matchdep": "~0.3.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-connect": "~0.5.0",
+    "connect-livereload": "~0.3.0",
+    "grunt-open": "~0.2.2",
+    "open": "0.0.4"
+  }
+}
