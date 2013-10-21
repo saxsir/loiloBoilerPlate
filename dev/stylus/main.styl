@@ -1,0 +1,53 @@
+/*!
+ * Reset
+ */
+html,body,div,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,fieldset,input,abbr,article,aside,command,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time
+  margin: 0
+  padding: 0
+
+h1,h2,h3,h4,h5,h6,pre,code,address,caption,cite,code,em,strong,th,figcaption
+  font-size 1em
+  font-weight normal
+  font-style normal
+
+fieldset,iframe
+  border none
+
+caption,th
+  text-align left
+
+table
+  border-collapse collapse
+  border-spacing 0
+
+article,aside,footer,header,hgroup,nav,section,figure,figcaption
+  display block
+
+/*!
+ * clearfix
+ */
+.clearfix
+  min-height 1px
+  &:after
+    content '.'
+    display block
+    clear both
+    height 0
+    visibility hidden
+
+// define variables
+$pageWidth = 980px
+$defaultFontColor = rgb(89,87,87)
+$fontPink = rgb(232,68,123)
+$fontWhite = rgb(255,255,255)
+$defaultFontSize = 16px
+$fontFamily = 'Helvetica Neue',Helvetica,Arial,'ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','メイリオ',Meiryo,sans-serif
+
+/*!
+ * Layouts
+ */
+body
+  width $pageWidth
+  color $defaultFontColor
+  font $defaultFontSize $fontFamily
+  -webkit-text-size-adjust 100%
