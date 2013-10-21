@@ -41,21 +41,20 @@ module.exports = function (grunt) {
         files: [
           '<%= prod %>*.html',
           '<%= prod %>styles/*.css',
-          '<%= prod %>scripts/*.js',
-          '<%= prod %>images/*'
+          '<%= prod %>scripts/*.js'
         ]
       },
       jade: {
         files: '<%= dev %>*.jade',
-        tasks: ['jade']
+        tasks: ['jade', 'jsbeautifier']
       },
       stylus: {
         files: '<%= dev %>stylus/*.styl',
-        tasks: ['stylus']
+        tasks: ['stylus', 'csso', 'jsbeautifier']
       },
-      coffee: {
-        files: '<%= dev %>coffee/*.coffee',
-        tasks: ['coffee']
+      scripts: {
+        files: '<%= dev %>scripts/*.js',
+        tasks: ['jsbeautifier', 'uglify', 'concat']
       }
     },
     //@notice: jade（コンパイル）
@@ -82,17 +81,9 @@ module.exports = function (grunt) {
         }
       }
     },
-    //@notice: coffee（コンパイル）
-    coffee: {
-      compile: {
-        files: {
-          '<%= prod %>scripts/app.js': '<%= dev %>coffee/main.coffee'
-        }
-      },
-    },
     //@notice: copy(ファイルコピー)
     copy: {
-      main: {
+      image: {
         files: [
           {
             expand: true,
@@ -102,15 +93,85 @@ module.exports = function (grunt) {
           }
         ]
       }
+    },
+    //@notice: csso（css最適化)
+    csso: {
+      dist: {
+        options: {
+          restructure: false,
+          report: 'min'
+        },
+        files: {
+          '<%= prod %>styles/app.css': '<%= prod %>styles/app.css'
+        }
+      }
+    },
+    //@notice: uglify（js圧縮）
+    uglify: {
+      main: {
+        files: {
+          '<%= dev %>scripts/main.min.js': ['<%= dev %>scripts/main.js'],
+
+        }
+      }
+    },
+    //@notice: concat（js連結）
+    concat: {
+      options: {
+        separator: '\n;',
+      },
+      dist: {
+        src: ['<%= dev %>scripts/jquery-2.0.3.min.js', '<%= dev %>scripts/main.min.js'],
+        dest: '<%= prod %>scripts/app.min.js'
+      },
+    },
+    //@notice: jsbeautifier（html, cssの整形）
+    jsbeautifier: {
+      files: ['<%= prod %>{,*/}*.html', '<%= prod %>styles/{,*/}*.css', '<%= dev %>scripts/app.js'],
+      options: {
+        html: {
+          braceStyle: 'collapse',
+          indentChar: ' ',
+          indentScripts: 'keep',
+          indentSize: 2,
+          maxPreserveNewlines: 10,
+          preserveNewlines: true,
+          unformatted: ['a', 'sub', 'sup', 'b', 'i', 'u'],
+          wrapLineLength: 0
+        },
+        css: {
+          indentChar: ' ',
+          indentSize: 2
+        },
+        js: {
+          braceStyle: 'collapse',
+          breakChainedMethods: false,
+          e4x: false,
+          evalCode: false,
+          indentChar: ' ',
+          indentLevel: 0,
+          indentSize: 2,
+          indentWithTabs: false,
+          jslintHappy: false,
+          keepArrayIndentation: false,
+          keepFunctionIndentation: false,
+          maxPreserveNewlines: 10,
+          preserveNewlines: true,
+          spaceBeforeConditional: true,
+          spaceInParen: false,
+          unescapeStrings: false,
+          wrapLineLength: 0
+        }
+      }
     }
-    //@todo: 連結、圧縮、画像最適化、置換、コピーのタスクを準備する
+    //@todo: 連結、圧縮、画像最適化、置換のタスクを準備する
   });
 
   //@notice Load all grunt tasks
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('compile', ['jade', 'stylus', 'coffee', 'copy']);
-  grunt.registerTask('default', ['compile',  'connect', 'open', 'watch']);
+  grunt.registerTask('compile', ['jade', 'stylus', 'csso', 'jsbeautifier', 'uglify', 'concat', 'copy:image']);
+  grunt.registerTask('default', ['compile', 'connect', 'open', 'watch']);
 };
 
 
